@@ -1,35 +1,33 @@
-###################
-ERMS! Employment Records Management System
-###################
+#ERMS! Employment Records Management System
 
-Simple Management System
- Features :
- 	1. Login, Logout and Register Account
- 	2. Add, Update , Delete Employment Record
- 	3. Dashboard (Soon)
 
-*******************
-Install Database (SQL)
-*******************
+#Simple Management System
+#Features :
+ 	* Login, Logout and Register Account
+ 	* Add, Update , Delete Employment Record
+ 	* Dashboard (Soon)
+
+
+#Install Database (SQL)
 
 The SQL dump file is located at sql folder. Import the database at the phpmyadmin
 
-**************************
-Test System
-**************************
+
+#Test System
+********************
 
 Test the system using xampp web server. Download and Paste it the folder at htdocs folder in xampp.
 Access it using browser : localhost/simple-erms
 
 *******************
-Technologies / Frameworks Used 
+#Technologies / Frameworks Used 
 *******************
 
-CodeIgniter 3.1.0 Framework
-Mysql Database
-Jquery Datables
-Bootstrap 3
-Start Bootstrap Template
+*CodeIgniter 3.1.0 Framework
+*Mysql Database
+*Jquery Datables
+*Bootstrap 3
+*Start Bootstrap Template
 
 © PauleJanhPatrickMacusi - p6mac
 
