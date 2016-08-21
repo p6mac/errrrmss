@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				'age' 		=> $params['age'],
 				'salary' 	=> $params['salary']);
 
-			$this->db->insert('employees', $fields);
+			$this->db->insert($this->table_name, $fields);
 
 		}
 

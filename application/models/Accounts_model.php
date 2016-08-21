@@ -22,20 +22,11 @@ class Accounts_model extends CI_Model {
 
 	public function register($account)
 	{	
-		$condition = array('username' => $account['username']);
-		$query = $this->db->get_where($this->table_name, $condition);
-
-		if ( empty($query))
-		{
-			$fields = array(
-				'username' => $account['username'],
-				'password' => $account['password']);
-
-			$this->db->insert($this->table_name, $fields);
-			return TRUE;
-		}
-
-		return FALSE;	
+		$fields = array(
+			'username' => $account['username'],
+			'password' => $account['password']);
+			
+		$this->db->insert($this->table_name, $fields);
 	}
 }
 

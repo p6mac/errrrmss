@@ -35,8 +35,15 @@
         <input type="password" name="password" class="form-control" placeholder="Password" required>
         
         <label class="sr-only">Password Again</label>
+
         <input type="password" name="passwordAgain" class="form-control" placeholder="Password Again" required>
-          <input class="btn btn-lg btn-primary btn-block" name="register" type="submit" value="Register">  
+                <br>
+        <?php 
+          if (isset($status)) { ?>
+            <div class="alert alert-info" role="alert"><?php echo $message ?> </div>
+        <?php } ?>
+          <input class="btn btn-lg btn-primary btn-block" name="register" type="submit" value="Register">
+          <a href="<?php base_url()?>login" class="btn btn-lg btn-primary btn-block" >Back to Login</a> 
       </form>
 
     </div> <!-- /container -->

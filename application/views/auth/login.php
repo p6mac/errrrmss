@@ -27,12 +27,6 @@
 
     <div class="container">
       <form class="form-signin" action="login" method="POST">
-
-        <?php 
-          if (isset($status)) {
-            echo $message;
-          }
-        ?>
         <h2 class="form-signin-heading">Please sign in</h2>
         <label class="sr-only">Username</label>
         <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
@@ -43,6 +37,10 @@
             <input type="checkbox" value="remember-me"> Remember me
           </label>
         </div>
+        <?php 
+          if (isset($status)) { ?>
+            <div class="alert <?= $class ?>" role="alert"><?php echo $message ?> </div>
+        <?php } ?>
           <input name="login" class="btn btn-lg btn-primary btn-block" type="submit" value="Sign in">
           <a class="btn btn-lg btn-primary btn-block" href="<?php base_url();?>register"> Register</a>  
       </form>

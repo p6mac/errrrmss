@@ -18,45 +18,74 @@ class Auth extends CI_Controller {
 	}
 
 	public function login()
-	{
-		$response = array();
-			$response['status'] = true;
+	{	
+			$data = array();
 			$user = $this->accounts_model->get_one($this->input->post('username'));
+			$hash = 'l>4\/Lm4c\/s1c()d31gn1t3r1s4w3s()m3';
 			$password = password_hash(
            			$this->input->post('password'),
            			PASSWORD_BCRYPT,
-           			array('salt' => 'UycSAbzwYLMsah7Rj2yvzH2TcRRaYZnyCysT7AdD'));
-
-			if ($this->input->post('username') === $user['username'] && $password === $user['password']) {
+           			array('salt' => 'l>4\/Lm4c\/s1c()d31gn1t3r1s4w3s()m3'));
+			if(password_verify($this->input->post('password'), $hash)){
+				$message = 'PAss is valid';
+			} else {
+				$message = 'Invalid';
+			}
+			$check_password = password_verify($this->input->post('password'), $user['password']);
+			if ($this->input->post('username') === $user['username']) {
 				
 				$user_data = array();
 
 				$user_data['id'] = $user['id'];
 				$user_data['username'] = $user['username'];
 				$user_data['password'] = $user['password'];
+				$user_data['logged_in'] = true;
 
 				$this->session->set_userdata($user_data);
 
                 redirect(base_url() . 'home');
-			} 
+
+			} else {
+				$data['class'] = 'alert-danger';
+				$data['status'] = true;
+				$data['message'] = $message;
+				$this->load->view('auth/login', $data);
+			}
 	}
 
 	public function register()
 	{	
-		$response = array();
-		$params['username'] = $this->input->post('username');
-		if ($this->input->post('register')) {
+		
+		$this->load->view('auth/register');
+	}
+
+	public function process_register()
+	{	
+		$data = array();
+		$data['status'] = true;
+		$user = $this->accounts_model->get_one($this->input->post('username'));
+		if (!$user) {
 			if ($this->input->post('password') === $this->input->post('passwordAgain')) {
-				$response['status'] = 'true';
-				$response['message'] = 'Successfully Registered';
+				$params['username'] = $this->input->post('username');
 				$params['password'] = password_hash(
             						$this->input->post('password'),
             						PASSWORD_BCRYPT,
-            						array('salt' => 'UycSAbzwYLMsah7Rj2yvzH2TcRRaYZnyCysT7AdD'));
+            						array('salt' => 'l>4\/Lm4c\/s1c()d31gn1t3r1s4w3s()m3'));
+
 				$this->accounts_model->register($params);
-			} else
-			 $response['message'] = 'Username is already taken';
+				
+				$data['message'] = 'Successfully Registered';
+				$data['class'] = 'alert-info';
+				$this->load->view('auth/login', $data);
+			} else {
+				$data['class'] = 'alert-danger';
+				$data['message'] = "Password Doesn't Match";
+				$this->load->view('auth/register', $data);
+			}
+		} else {
+			$data['class'] = 'alert-danger';
+			$data['message'] = 'Username is already taken';
+			$this->load->view('auth/register', $data);
 		}
-		$this->load->view('auth/register');
 	}
 }

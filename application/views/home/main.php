@@ -18,7 +18,7 @@
 
     <!-- Custom styles for this template -->
     <link href="<?php base_url()?>assets/css/navbar.css" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="<?php base_url()?>assets/css/font-awesome.min.css">
   </head>
 
   <body>
@@ -26,29 +26,12 @@
     <div class="container">
 
       <!-- Static navbar -->
-      <nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <div class="navbar-header">
-          <!-- hee -->
-           
-            <a class="navbar-brand" href="#">ERRRRRMMS! Employee Records Management System</a>
-          </div>
-          <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-              <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
-              <li><a href="../navbar-static-top/">Static top</a></li>
-              <li><a href="../navbar-fixed-top/">Fixed top</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div><!--/.container-fluid -->
-      </nav>
+      <?php include 'nav.php'; ?> 
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-       <div class="col-lg-12 col-md-12">
         <input type="button" class="btn btn-primary" id="add-employee" value="Add Employee"> 
-        <hr>
-          <form action="<?php $_SELF?>" method="POST" id="add_employee_form" style="display:none">
+          <form action="home" method="POST" id="add_employee_form" style="display:none">
             <div class="form-group">
               <label>First Name</label>
               <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
@@ -71,10 +54,14 @@
             </div>
               <input type="submit" class="btn btn-primary" name="submit" value="Submit">
           </form>
-       </div> 
+
         <br>
         <hr>
         <br>
+        <?php 
+          if (isset($notif['status'])) { ?>
+            <div class="alert alert-info" role="alert"><?php echo $notif['message'] ?> </div>
+        <?php } ?>
         <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr>
@@ -96,7 +83,7 @@
                   <td><?= $employee->age ?></td>
                   <td><?= $employee->salary ?></td>
                   <td>
-                    <a href="edit?id=<?= $employee->id ?>" class="btn btn-warning btn-xs">
+                    <a href="edit_employee?id=<?= $employee->id ?>" class="btn btn-warning btn-xs">
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                     <a href="delete?id=<?= $employee->id ?>" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
                   </td>

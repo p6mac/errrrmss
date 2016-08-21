@@ -7,11 +7,29 @@ class Home extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('employees_model');
+		$this->load->library('session');
 	}
 
 	public function index()
 	{
+		$data = array();
+		if (isset($this->session->userdata['logged_in'])) {
+
+			$data['username'] = $this->session->userdata['username'];
+			$data['employees'] = $this->employees_model->get_all();
+			$data['notif'] = $this->session->tempdata();
+			$this->load->view('home/main', $data);
+		} else {
+			$data['status'] = true;
+			$data['class'] = 'alert-danger';
+			$data['message'] = "Access Forbidden! Please Login in";
+			$this->load->view('auth/login', $data);	
+		}
 		
+	}
+
+	public function add()
+	{
 		$params['first_name'] = $this->input->post('first_name');
 		$params['last_name']  = $this->input->post('last_name');
 		$params['birthdate']  = $this->input->post('birthdate');
@@ -19,17 +37,18 @@ class Home extends CI_Controller {
 		$params['age'] 		  = $this->calculateAge($this->input->post('birthdate'));
 		$params['salary'] 	  = $this->input->post('salary');
 
-		if ($this->input->post('submit')) {
-			$this->employees_model->add($params);
-		}
-		$data['employees'] = $this->employees_model->get_all();	
-		$this->load->view('home/main', $data);
+		$this->employees_model->add($params);
+
+		$data['status'] = true;
+		$data['message'] = 'Successfully Added Employee';
+		$this->session->set_tempdata($data, NULL, 3);
+		redirect(base_url(). 'home', 'refresh');
 	}
 
 	public function edit(){
 
 		$employee = $this->employees_model->get_one($this->input->get('id'));
-
+		$data['username'] = $this->session->userdata['username'];
 		$data['user_info'] = $employee;
 		$this->load->view('home/edit_employee', $data);
 	}
@@ -39,7 +58,9 @@ class Home extends CI_Controller {
 		$id = $this->input->get('id');
 		$this->employees_model->delete($id);
 
-
+		$data['status'] = true;
+		$data['message'] = 'Successfully Deleted Employee';
+		$this->session->set_tempdata($data, NULL, 3);
 		redirect(base_url() . 'home', 'refresh');
 	}
 
@@ -55,6 +76,9 @@ class Home extends CI_Controller {
 
 		$this->employees_model->update($params);
 
+		$data['status'] = true;
+		$data['message'] = 'Successfully Updated Employee';
+		$this->session->set_tempdata($data, NULL, 3);
 		redirect(base_url() . 'home', 'refresh');
 	}
 
@@ -66,27 +90,16 @@ class Home extends CI_Controller {
 		$age = $birthdate->diff($today)->y;
 		return $age;
 	}
-	// public function index()
-	// {
-	//    	if($this->session->userdata('logged_in'))
-	//    	{
-	//     $session_data = $this->session->userdata('logged_in');
-	//      $data['username'] = $session_data['username'];
-	//     $this->load->view('', $data);
-	//    	}
-	//    	else
-	//    	{
-	//      //If no session, redirect to login page
-	//      redirect('login', 'refresh');
-	//    	}
-	// }
  
  	function logout()
  	{
 
    		$this->session->unset_userdata('logged_in');
    		session_destroy();
-   		redirect('home', 'refresh');
+   		$data['status'] = true;
+   		$data['class'] = 'alert-info';
+   		$data['message'] = "You have successfully logged out!";
+   		$this->load->view('auth/login', $data);
  	}
  
 }
