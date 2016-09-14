@@ -24,14 +24,9 @@ class Auth extends CI_Controller {
 			$hash = 'l>4\/Lm4c\/s1c()d31gn1t3r1s4w3s()m3';
 			$password = password_hash(
            			$this->input->post('password'),
-           			PASSWORD_BCRYPT,
-           			array('salt' => 'l>4\/Lm4c\/s1c()d31gn1t3r1s4w3s()m3'));
-			if(password_verify($this->input->post('password'), $hash)){
-				$message = 'PAss is valid';
-			} else {
-				$message = 'Invalid';
-			}
-			$check_password = password_verify($this->input->post('password'), $user['password']);
+           			PASSWORD_DEFAULT);
+
+			//password
 			if ($this->input->post('username') === $user['username']) {
 				
 				$user_data = array();
@@ -48,7 +43,7 @@ class Auth extends CI_Controller {
 			} else {
 				$data['class'] = 'alert-danger';
 				$data['status'] = true;
-				$data['message'] = $message;
+ 				$data['message'] = 'Invalid Account / Password.';
 				$this->load->view('auth/login', $data);
 			}
 	}
@@ -63,6 +58,7 @@ class Auth extends CI_Controller {
 	{	
 		$data = array();
 		$data['status'] = true;
+		$hash = 'l>4\/Lm4c\/s1c()d31gn1t3r1s4w3s()m3';
 		$user = $this->accounts_model->get_one($this->input->post('username'));
 		if (!$user) {
 			if ($this->input->post('password') === $this->input->post('passwordAgain')) {
@@ -70,7 +66,7 @@ class Auth extends CI_Controller {
 				$params['password'] = password_hash(
             						$this->input->post('password'),
             						PASSWORD_BCRYPT,
-            						array('salt' => 'l>4\/Lm4c\/s1c()d31gn1t3r1s4w3s()m3'));
+            						array('salt' => $hash ));
 
 				$this->accounts_model->register($params);
 				

@@ -8,6 +8,8 @@ class Home extends CI_Controller {
 		parent::__construct();
 		$this->load->model('employees_model');
 		$this->load->library('session');
+		$this->load->library('excel');
+		$this->load->library('tc_pdf');
 	}
 
 	public function index()
@@ -23,9 +25,9 @@ class Home extends CI_Controller {
 			$data['status'] = true;
 			$data['class'] = 'alert-danger';
 			$data['message'] = "Access Forbidden! Please Login in";
-			$this->load->view('auth/login', $data);	
+			$this->load->view('auth/login', $data);
 		}
-		
+
 	}
 
 	public function add()
@@ -54,7 +56,7 @@ class Home extends CI_Controller {
 	}
 
 	public function delete()
-	{	
+	{
 		$id = $this->input->get('id');
 		$this->employees_model->delete($id);
 
@@ -90,7 +92,7 @@ class Home extends CI_Controller {
 		$age = $birthdate->diff($today)->y;
 		return $age;
 	}
- 
+
  	function logout()
  	{
 
@@ -101,5 +103,6 @@ class Home extends CI_Controller {
    		$data['message'] = "You have successfully logged out!";
    		$this->load->view('auth/login', $data);
  	}
- 
+
+
 }

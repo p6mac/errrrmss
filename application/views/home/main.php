@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title> Home Page</title>
+    <title>ERMS! Home Page</title>
 
     <!-- Bootstrap core CSS -->
     <link href="<?php base_url()?>assets/css/bootstrap.min.css" rel="stylesheet">
@@ -26,11 +26,11 @@
     <div class="container">
 
       <!-- Static navbar -->
-      <?php include 'nav.php'; ?> 
+      <?php include 'nav.php'; ?>
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <input type="button" class="btn btn-primary" id="add-employee" value="Add Employee"> 
+        <input type="button" class="btn btn-primary" id="add-employee" value="Add Employee">
           <form action="home" method="POST" id="add_employee_form" style="display:none">
             <div class="form-group">
               <label>First Name</label>
@@ -57,8 +57,12 @@
 
         <br>
         <hr>
+        <a href="<?php echo base_url('reports/generate_excel')?>" name="excel" class="btn btn-primary">Download As Excel </a>
+        <a href="<?php echo base_url('reports/generate_tcpdf')?>" name="tcpdf" class="btn btn-primary">Download As TCPDF</a>
+        <a href="<?php echo base_url('reports/generate_mpdf')?>" name="tcpdf" class="btn btn-primary">Download As MPDF</a>
+        <hr>
         <br>
-        <?php 
+        <?php
           if (isset($notif['status'])) { ?>
             <div class="alert alert-info" role="alert"><?php echo $notif['message'] ?> </div>
         <?php } ?>
@@ -74,8 +78,8 @@
             </tr>
         </thead>
         <tbody>
-            <?php 
-              foreach ($employees as $employee) { ?> 
+            <?php
+              foreach ($employees as $employee) { ?>
                 <tr>
                   <td><?= $employee->first_name ." ". $employee->last_name ?> </td>
                   <td><?= $employee->birthdate ?> </td>
@@ -114,7 +118,7 @@
                 $("#add-employee").attr('value', 'Add Employee');
                 $("#add_employee_form").hide();
             } else {
-                
+
                 $("#add-employee").attr('value', 'Cancel Form');
                 $("#add_employee_form").show();
             }
